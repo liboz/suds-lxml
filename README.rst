@@ -1,4 +1,6 @@
-Overview [![Build Status](https://travis-ci.org/liboz/suds-lxml.svg?branch=master)](https://travis-ci.org/liboz/suds-lxml)
+Overview 
+.. image:: https://travis-ci.org/liboz/suds-lxml.svg?branch=master
+    :target: https://travis-ci.org/liboz/suds-lxml
 =================================================
 
 "Suds" is a lightweight SOAP-based web service client for Python licensed under
