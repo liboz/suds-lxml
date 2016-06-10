@@ -280,6 +280,8 @@ def test_sending_using_network_sockets(send_method, monkeypatch):
         def __init__(self, mocker):
             self.__mocker = mocker
             self.mock_reset()
+        def setsockopt(level, optname, value):
+            pass
         def close(self):
             pass
         def connect(self, address):
@@ -336,6 +338,8 @@ def test_sending_using_network_sockets(send_method, monkeypatch):
     # connection socket in case of our custom exceptions, e.g. version 3.4.1.
     # closes it only on OSError exceptions.
     assert mocker.mock_socket.mock_call_count("close") in (0, 1)
+    # Not sure
+    assert mocker.mock_socket.mock_call_count("setsockopt") in (0, 1)
     # With older Python versions, e.g. Python 2.4, Socket class does not
     # implement the settimeout() method.
     assert mocker.mock_socket.mock_call_count("settimeout") in (0, 1)
