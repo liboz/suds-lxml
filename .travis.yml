@@ -7,9 +7,11 @@ python:
   - "3.5"
   # does not have headers provided, please ask https://launchpad.net/~pypy/+archive/ppa
   # maintainers to fix their pypy-dev package.
-  - "pypy"
+  #- "pypy"
+# command to install dependencies
+install: "pip install pytest-cov"
 # command to run tests
-script: python setup.py test
+script: python setup.py test --cov=suds tests/
 
 after_sucess:
   coveralls
