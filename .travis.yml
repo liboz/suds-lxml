@@ -8,7 +8,11 @@ python:
   # maintainers to fix their pypy-dev package.
   #- "pypy"
 # command to install dependencies
-install: "pip install pytest-cov"
+
+install:
+  - pip install pytest-cov
+  - pip install coveralls
+
 # command to run tests
 script: python setup.py test -a "--cov=suds tests/"
 
