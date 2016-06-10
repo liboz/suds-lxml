@@ -16,5 +16,5 @@ install:
 # command to run tests
 script: python setup.py test -a "--cov=suds tests/ --cov-report="
 
-after_sucess:
+after_success:
   coveralls
