@@ -280,7 +280,7 @@ def test_sending_using_network_sockets(send_method, monkeypatch):
         def __init__(self, mocker):
             self.__mocker = mocker
             self.mock_reset()
-        def setsockopt(level, optname, value):
+        def setsockopt(self, level, optname, value):
             pass
         def close(self):
             pass
