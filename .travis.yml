@@ -10,3 +10,6 @@ python:
   - "pypy"
 # command to run tests
 script: python setup.py test
+
+after_sucess:
+  coveralls
