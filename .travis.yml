@@ -10,6 +10,6 @@ python:
   - "pypy"
 # command to install dependencies
 install:
-  - tools/setup_base_environments.py
+  - python tools/setup_base_environments.py
 # command to run tests
-script: setup.py test
+script: python setup.py test
