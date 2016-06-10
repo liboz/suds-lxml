@@ -305,6 +305,8 @@ def test_sending_using_network_sockets(send_method, monkeypatch):
             raise MyException
         def close(self):
             pass
+        def flush(self):
+            pass
 
     # Setup.
     host = "an-easily-recognizable-host-name-214894932"
@@ -343,6 +345,7 @@ def test_sending_using_network_sockets(send_method, monkeypatch):
     # Not sure 3.5 related
     assert mocker.mock_socket.mock_call_count("setsockopt") in (0, 1)
     assert mocker.mock_socket.mock_reader.mock_call_count("close") in (0, 1)
+    assert mocker.mock_socket.mock_reader.mock_call_count("flush") in (0, 1)
     # With older Python versions, e.g. Python 2.4, Socket class does not
     # implement the settimeout() method.
     assert mocker.mock_socket.mock_call_count("settimeout") in (0, 1)
