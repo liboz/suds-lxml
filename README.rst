@@ -1,7 +1,6 @@
 Overview 
 
-.. image:: https://travis-ci.org/liboz/suds-lxml.svg?branch=master
-    :target: https://travis-ci.org/liboz/suds-lxml
+.. image:: https://travis-ci.org/liboz/suds-lxml.svg?branch=master :target: https://travis-ci.org/liboz/suds-lxml
 .. image:: https://coveralls.io/repos/github/liboz/suds-lxml/badge.svg?branch=master :target: https://coveralls.io/github/liboz/suds-lxml?branch=master 
 
 =================================================
@@ -9,8 +8,8 @@ Overview
 "Suds" is a lightweight SOAP-based web service client for Python licensed under
 LGPL (see the ``LICENSE.txt`` file included in the distribution).
 
-This is a fork of suds that gives the option to parse the lxml with xml 
-instead of the default suds implementation.
+This is a fork of suds that gives the option to parse the xml returned 
+with lxml instead of the default suds implementation.
 
 **Forked project information**
 
