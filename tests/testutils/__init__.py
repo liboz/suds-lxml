@@ -21,6 +21,7 @@ Package containing different utilities used for suds project testing.
 """
 
 import suds.client
+import suds.lxmlclient
 import suds.store
 
 import os
@@ -61,6 +62,39 @@ def client_from_wsdl(wsdl_content, *args, **kwargs):
     return suds.client.Client("suds://" + test_file_id, *args, **kwargs)
 
 
+def lxmlclient_from_wsdl(wsdl_content, *args, **kwargs):
+    """
+    Constructs a non-caching suds Client based on the given WSDL content.
+
+      The wsdl_content is expected to be a raw byte string and not a unicode
+    string. This simple structure suits us fine here because XML content holds
+    its own embedded encoding identification ('utf-8' if not specified
+    explicitly).
+
+      Stores the content directly inside the suds library internal document
+    store under a hard-coded id to avoid having to load the data from a
+    temporary file.
+
+      Uses a locally created empty document store unless one is provided
+    externally using the 'documentStore' keyword argument.
+
+      Explicitly disables caching or otherwise, because we use the same
+    hardcoded id for our main WSDL document, suds would always reuse the first
+    such local document from its cache instead of fetching it from our document
+    store.
+
+    """
+    assert wsdl_content.__class__ is suds.byte_str_class, "bad test data"
+    store = kwargs.get("documentStore")
+    if store is None:
+        store = suds.store.DocumentStore()
+        kwargs.update(documentStore=store)
+    test_file_id = "whatchamacallit"
+    store.update({test_file_id: wsdl_content})
+    kwargs.update(cache=None)
+    return suds.lxmlclient.Client("suds://" + test_file_id, *args, **kwargs)    
+
+    
 def run_test_process(script):
     """
     Runs the given Python test script as a separate process.
