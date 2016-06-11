@@ -8,8 +8,9 @@ Overview
 "Suds" is a lightweight SOAP-based web service client for Python licensed under
 LGPL (see the ``LICENSE.txt`` file included in the distribution).
 
-This is a fork of suds that gives the option to parse the xml returned 
-with lxml instead of the default suds implementation.
+One major problem with suds is that it is slow. 
+This is a fork of suds that tries to solve it by parse the xml returned 
+with the **fast** lxml parser instead of the default suds implementation.
 
 **Forked project information**
 
