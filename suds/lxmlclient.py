@@ -189,9 +189,9 @@ class Client(object):
     def __set_soap_types__(self, client):
         setattr(self, 'factory', client.factory)
 
-    def __init__(self, url):
+    def __init__(self, url, *args, **kwargs):
         self.url = url
-        self.suds_client = sudsClient(self.url, retxml=True)
+        self.suds_client = sudsClient(self.url, retxml=True, *args, **kwargs) #maybe clean for retxml in kwargs
 
         self.__set_methods__(self.suds_client)
         self.__set_soap_types__(self.suds_client)
