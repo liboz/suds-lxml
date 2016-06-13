@@ -673,23 +673,23 @@ if it ever gets revived again.
 
 """
 
-package_name = "suds-jurko"
+package_name = "suds-lxml"
 version_tag = safe_version(__version__)
-project_url = "http://bitbucket.org/jurko/suds"
-base_download_url = project_url + "/downloads"
+project_url = "https://github.com/liboz/suds-lxml"
+base_download_url = project_url + "/releases"
 download_distribution_name = "%s-%s.tar.bz2" % (package_name, version_tag)
 download_url = "%s/%s" % (base_download_url, download_distribution_name)
 
-maintainer="Jurko Gospodnetić"
+maintainer="Libo Zeng"
 if can_not_use_non_ASCII_meta_data:
     maintainer = unicode2ascii(maintainer)
 
 setup(
     name=package_name,
     version=__version__,
-    description="Lightweight SOAP client (Jurko's fork)",
+    description="Lightweight SOAP client with lxml parser (Libo's fork)",
     long_description=long_description,
-    keywords=["SOAP", "web", "service", "client"],
+    keywords=["SOAP", "web", "service", "client", "lxml"],
     url=project_url,
     download_url=download_url,
     packages=recursive_package_list("suds"),
@@ -711,15 +711,11 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.4",
-        "Programming Language :: Python :: 2.5",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.1",
-        "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "Topic :: Internet"],
 
     # PEP-314 states that, if possible, license & platform should be specified
