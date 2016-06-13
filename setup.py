@@ -656,11 +656,12 @@ if (can_not_use_non_ASCII_meta_data and using_setuptools and
 # distribution metadata file stores this text with an 8 space indentation.
 long_description = """
 ---------------------------------------
-Lightweight SOAP client (Jurko's fork).
+Lightweight SOAP client with lxml parser (Libo's fork).
 ---------------------------------------
 
   Based on the original 'suds' project by Jeff Ortel (jortel at redhat
-dot com) hosted at 'http://fedorahosted.org/suds'.
+dot com) hosted at 'http://fedorahosted.org/suds' and 'suds-jurko' by 
+Jurko Gospodnetić ( jurko.gospodnetic@pke.hr ) hosted at https://bitbucket.org/jurko/suds.
 
   'Suds' is a lightweight SOAP-based web service client for Python
 licensed under LGPL (see the LICENSE.txt file included in the
