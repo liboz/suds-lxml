@@ -678,8 +678,8 @@ It requires lxml to be installed.
 package_name = "suds-lxml"
 version_tag = safe_version(__version__)
 project_url = "https://github.com/liboz/suds-lxml"
-base_download_url = project_url + "/releases"
-download_distribution_name = "%s-%s.tar.bz2" % (package_name, version_tag)
+base_download_url = project_url + "/archive"
+download_distribution_name = "%s.zip" % (version_tag)
 download_url = "%s/%s" % (base_download_url, download_distribution_name)
 
 maintainer="Libo Zeng"
@@ -705,7 +705,7 @@ setup(
     # See PEP-301 for the classifier specification. For a complete list of
     # available classifiers see
     # 'http://pypi.python.org/pypi?%3Aaction=list_classifiers'.
-    classifiers=["Development Status :: 5 - Production/Stable",
+    classifiers=["Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: "
             "GNU Library or Lesser General Public License (LGPL)",
