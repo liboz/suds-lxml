@@ -15,6 +15,7 @@ objectify.set_default_parser(parser)
 logger = logging.getLogger('suds.client.lxml')
 logging.getLogger('suds.client').setLevel(logging.CRITICAL)  # Don't show suds messages!
 
+
 class SoapObject:
     def __init__(self, name):
         self.__name__ = name
@@ -182,8 +183,6 @@ def lxml_wrapper(f, schema):
 
     return call
 
-class Methods(object):
-    pass
 
 class Client(object):
     def __set_methods__(self, client):
@@ -203,8 +202,6 @@ class Client(object):
 
         self.__set_methods__(self.suds_client)
         self.__set_soap_types__(self.suds_client)
-
-        self.WSFault = WebFault
     
     def __str__(self):
         return str(self.suds_client)

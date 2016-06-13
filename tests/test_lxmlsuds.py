@@ -24,6 +24,7 @@ This whole module should be refactored into more specialized modules as more
 tests get added to it and it acquires more structure.
 
 """
+import sys
 
 import testutils
 if __name__ == "__main__":
@@ -32,7 +33,7 @@ if __name__ == "__main__":
 import suds
 
 import pytest
-from six import itervalues, next, u, text_type
+from six import itervalues, next, text_type, binary_type
 from six.moves import http_client
 
 import xml.sax
@@ -74,7 +75,12 @@ def test_wrapped_sequence_output():
     assert response.result1 == "Uno"
     assert response.result2 == "Due"
     assert response.result3 == "Tre"
-    assert isinstance(response.result1, text_type)
-    assert isinstance(response.result2, text_type)
-    assert isinstance(response.result3, text_type)
+    if sys.version_info >= (3,):
+        assert isinstance(response.result1, text_type)
+        assert isinstance(response.result2, text_type)
+        assert isinstance(response.result3, text_type)
+    else: #lxml uses ascii by default in python 2
+        assert isinstance(response.result1, binary_type)
+        assert isinstance(response.result2, binary_type)
+        assert isinstance(response.result3, binary_type)
     
