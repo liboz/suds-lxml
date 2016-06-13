@@ -19,3 +19,6 @@ script: python setup.py test -a "--cov=suds tests/"
 
 after_success:
   coveralls
+  
+ after_failure:
+  coveralls
