@@ -18,12 +18,15 @@ logging.getLogger('suds.client').setLevel(logging.CRITICAL)  # Don't show suds m
 class SoapObject:
     def __init__(self, name):
         self.__name__ = name
-
-    def __str__(self):
-        return self.__name__
-
+    
+    def __len__(self):
+        return len(self.__dict__.items()) - 1 # ignore the __name__ property
+    
     def __repr__(self):
         return self.__str__()
+        
+    def __str__(self):
+        return self.__name__
 
     def as_dict(self):
         return {k: v for k, v in self.__dict__.items() if '__name__' not in k}

@@ -32,7 +32,7 @@ if __name__ == "__main__":
 import suds
 
 import pytest
-from six import itervalues, next, u
+from six import itervalues, next, u, text_type
 from six.moves import http_client
 
 import xml.sax
@@ -43,3 +43,38 @@ def test_converting_client_to_string_must_not_raise_an_exception():
         "<?xml version='1.0' encoding='UTF-8'?><root/>"))
     str(client)
 
+
+def test_wrapped_sequence_output():
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result1" type="xsd:string"/>
+            <xsd:element name="result2" type="xsd:string"/>
+            <xsd:element name="result3" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>""", output="Wrapper"))
+    #assert _isOutputWrapped(client, "f")
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+        <result1>Uno</result1>
+        <result2>Due</result2>
+        <result3>Tre</result3>
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    assert len(response) == 3
+    assert response.result1 == "Uno"
+    assert response.result2 == "Due"
+    assert response.result3 == "Tre"
+    assert isinstance(response.result1, text_type)
+    assert isinstance(response.result2, text_type)
+    assert isinstance(response.result3, text_type)
+    
