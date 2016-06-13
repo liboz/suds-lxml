@@ -693,7 +693,8 @@ setup(
     url=project_url,
     download_url=download_url,
     packages=recursive_package_list("suds"),
-
+    zip_safe=False,
+    
     author="Jeff Ortel",
     author_email="jortel@redhat.com",
     maintainer=maintainer,

@@ -81,7 +81,11 @@ def lxml_wrapper(f, schema):
         resolved_children = {c[0].name: (c[0], c[0].resolve(nobuiltin=True)) for c in resolved.children()}
 
         for child in obj.iterchildren():
-            key = child.tag.split('}')[1]
+            i = child.tag.find('}')
+            if i >= 0:
+                key = child.tag[i+1:]
+            else:
+                key = child.tag
             resolved_child = resolved_children[key][1]
             # Enums aren't basic types technically and thus have children, but they effectively are
             if resolved_child.enum() or len(resolved_child.children()) == 0:
@@ -181,10 +185,11 @@ class Methods(object):
 class Client(object):
     def __set_methods__(self, client):
         self.service = client.service
-        self.suds_methods = client.service._ServiceSelector__services[0].ports[0].methods.keys()
-        for method in self.suds_methods:
-            suds_method = getattr(client.service, method)
-            setattr(self.service, method, lxml_wrapper(suds_method, client.wsdl.schema))
+        if len(client.service._ServiceSelector__services) > 0:
+            self.suds_methods = client.service._ServiceSelector__services[0].ports[0].methods.keys()
+            for method in self.suds_methods:
+                suds_method = getattr(client.service, method)
+                setattr(self.service, method, lxml_wrapper(suds_method, client.wsdl.schema))
 
     def __set_soap_types__(self, client):
         setattr(self, 'factory', client.factory)
