@@ -196,11 +196,11 @@ def test_array():
     assert response.value[0] == 19
     assert isinstance(response.value[0], int)
     
-    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+    lient = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
       <xsd:element name="Wrapper">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="value" type="xsd:int" maxOccurs="unbounded"/>
+            <xsd:element name="value" type="xsd:string" nillable="true" maxOccurs="unbounded"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>""", output="Wrapper"))
@@ -210,14 +210,16 @@ def test_array():
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
   <Body>
     <Wrapper xmlns="my-namespace">
+        <value />
     </Wrapper>
   </Body>
 </Envelope>""")))
 
     # Check response content.
-    print(response.value)
     assert len(response) == 1
-    assert response.value is None
+    assert isinstance(response.value, list)
+    print(response.value)
+    assert len(response.value) == 0
     
 def assert_lxml_string_value(test_obj):
     if sys.version_info >= (3,):

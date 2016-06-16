@@ -108,7 +108,7 @@ def lxml_wrapper(f, schema):
                 continue
             # The resolving deletes the unbounded info, so use the original info
             if resolved_children[key][0].multi_occurrence():
-                if cval is None:
+                if cval is None or cval == '':
                     setattr(python_obj, key, [])
                 else:
                     setattr(python_obj, key, [cval, ])
