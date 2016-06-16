@@ -77,6 +77,32 @@ def test_wrapped_sequence_output():
     assert_lxml_string_value(response.result1)
     assert_lxml_string_value(response.result2)
     assert_lxml_string_value(response.result3)
+    
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result1" type="xsd:string"/>
+            <xsd:element name="result2" type="xsd:string"/>
+            <xsd:element name="result3" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>""", output="Wrapper"))
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    assert len(response) == 3
+    assert response.result1 is None
+    assert response.result2 is None
+    assert response.result3 is None
 
         
 #Todo fix
@@ -133,7 +159,6 @@ def test_array():
 </Envelope>""")))
 
     # Check response content.
-    print(response.value)
     assert len(response) == 1
     assert isinstance(response.value, list)
     assert len(response.value) == 3
@@ -165,12 +190,34 @@ def test_array():
 </Envelope>""")))
 
     # Check response content.
-    print(response.value)
     assert len(response) == 1
     assert isinstance(response.value, list)
     assert len(response.value) == 1
     assert response.value[0] == 19
     assert isinstance(response.value[0], int)
+    
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="value" type="xsd:int" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>""", output="Wrapper"))
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    print(response.value)
+    assert len(response) == 1
+    assert response.value is None
     
 def assert_lxml_string_value(test_obj):
     if sys.version_info >= (3,):
