@@ -56,7 +56,6 @@ def test_wrapped_sequence_output():
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>""", output="Wrapper"))
-    #assert _isOutputWrapped(client, "f")
 
     response = client.service.f(__inject=dict(reply=suds.byte_str("""\
 <?xml version="1.0"?>
@@ -75,12 +74,106 @@ def test_wrapped_sequence_output():
     assert response.result1 == "Uno"
     assert response.result2 == "Due"
     assert response.result3 == "Tre"
-    if sys.version_info >= (3,):
-        assert isinstance(response.result1, text_type)
-        assert isinstance(response.result2, text_type)
-        assert isinstance(response.result3, text_type)
-    else: #lxml uses ascii by default in python 2
-        assert isinstance(response.result1, binary_type)
-        assert isinstance(response.result2, binary_type)
-        assert isinstance(response.result3, binary_type)
+    assert_lxml_string_value(response.result1)
+    assert_lxml_string_value(response.result2)
+    assert_lxml_string_value(response.result3)
+
+        
+#Todo fix
+@pytest.mark.xfail
+def test_enum():
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:element name="Size">
+          <xsd:simpleType name="DataSize">
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="1" />
+              <xsd:enumeration value="2"/>
+              <xsd:enumeration value="3"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:element>""", output="Wrapper"))
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+        <DataSize>1</DataSize>
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    assert len(response) == 1
+    assert response.size == 1
+
+
+def test_array():
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="value" type="xsd:string" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>""", output="Wrapper"))
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+        <value>9</value>
+        <value>18</value>
+        <value>5342</value>
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    print(response.value)
+    assert len(response) == 1
+    assert isinstance(response.value, list)
+    assert len(response.value) == 3
+    assert response.value[0] == "9"
+    assert response.value[1] == "18"
+    assert response.value[2] == "5342"
+    assert_lxml_string_value(response.value[0])
+    assert_lxml_string_value(response.value[1])
+    assert_lxml_string_value(response.value[2])
     
+    
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+      <xsd:element name="Wrapper">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="value" type="xsd:int" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>""", output="Wrapper"))
+
+    response = client.service.f(__inject=dict(reply=suds.byte_str("""\
+<?xml version="1.0"?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+  <Body>
+    <Wrapper xmlns="my-namespace">
+        <value>19</value>
+    </Wrapper>
+  </Body>
+</Envelope>""")))
+
+    # Check response content.
+    print(response.value)
+    assert len(response) == 1
+    assert isinstance(response.value, list)
+    assert len(response.value) == 1
+    assert response.value[0] == 19
+    assert isinstance(response.value[0], int)
+    
+def assert_lxml_string_value(test_obj):
+    if sys.version_info >= (3,):
+        assert isinstance(test_obj, text_type)
+    else: #lxml uses ascii by default in python 2
+        assert isinstance(test_obj, binary_type)
