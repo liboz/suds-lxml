@@ -196,7 +196,7 @@ def test_array():
     assert response.value[0] == 19
     assert isinstance(response.value[0], int)
     
-    lient = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
+    client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
       <xsd:element name="Wrapper">
         <xsd:complexType>
           <xsd:sequence>
@@ -218,7 +218,6 @@ def test_array():
     # Check response content.
     assert len(response) == 1
     assert isinstance(response.value, list)
-    print(response.value)
     assert len(response.value) == 0
     
 def assert_lxml_string_value(test_obj):
