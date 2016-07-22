@@ -110,7 +110,7 @@ Benchmarks
 =================================================
 
 This project was started because I had to deal with large SOAP return envelopes
-and wanted to use suds. However, it was simply too slow.
+and I wanted to use suds. However, suds was simply too slow.
 
 Here are some initial benchmarks for just the parsing on a 30 MB return envelope.
 We take the average over 10 iterations:
