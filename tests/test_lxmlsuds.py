@@ -43,7 +43,6 @@ def test_converting_client_to_string_must_not_raise_an_exception():
         "<?xml version='1.0' encoding='UTF-8'?><root/>"))
     str(client)
 
-
 def test_wrapped_sequence_output():
     client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
       <xsd:element name="Wrapper">
@@ -102,7 +101,6 @@ def test_wrapped_sequence_output():
     assert response.result1 is None
     assert response.result2 is None
     assert response.result3 is None
-
         
 #Todo fix
 @pytest.mark.xfail
@@ -133,7 +131,6 @@ def test_enum():
     # Check response content.
     assert len(response) == 1
     assert response.size == 1
-
 
 def test_array():
     client = testutils.lxmlclient_from_wsdl(testutils.wsdl("""\
