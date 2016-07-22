@@ -20,9 +20,6 @@ General suds Python library unit tests.
 
 Implemented using the 'pytest' testing framework.
 
-This whole module should be refactored into more specialized modules as more
-tests get added to it and it acquires more structure.
-
 """
 import sys
 
