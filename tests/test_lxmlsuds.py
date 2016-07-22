@@ -38,7 +38,6 @@ from six.moves import http_client
 
 import xml.sax
 
-
 def test_converting_client_to_string_must_not_raise_an_exception():
     client = testutils.lxmlclient_from_wsdl(suds.byte_str(
         "<?xml version='1.0' encoding='UTF-8'?><root/>"))
